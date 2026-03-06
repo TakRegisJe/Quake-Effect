@@ -286,6 +286,10 @@ public:
 
 	class idPlayerView		playerView;			// handles damage kicks and effects
 
+	//MOD
+	idHashTable<idActor*> activeCompanions;
+	//MOD-END
+
 	bool					alreadyDidTeamAnnouncerSound;
 	bool					noclip;
 	bool					godmode;
@@ -1116,6 +1120,10 @@ private:
 	bool doInitWeapon;
 	void					InitWeapon			( void );
 	// RAVEN END
+
+	//MOD
+	void SpawnCompanion( const char* defName );
+	//MOD-END
 
 	bool					IsLegsIdle						( bool crouching ) const;
 	

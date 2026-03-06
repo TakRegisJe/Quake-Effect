@@ -1079,6 +1079,10 @@ idPlayer::idPlayer
 idPlayer::idPlayer() {
 	memset( &usercmd, 0, sizeof( usercmd ) );
 
+	//MOD
+	idHashTable<idActor*> activeCompanions;
+	//MOD-END
+
 	alreadyDidTeamAnnouncerSound = false;
 
 	doInitWeapon			= false;
@@ -8599,7 +8603,29 @@ void idPlayer::PerformImpulse( int impulse ) {
 		case IMPULSE_126:	break; // Unused
 		case IMPULSE_127:	break; // Unused
 // RITUAL END
-
+		
+		//MOD
+		case IMPULSE_23: { 
+			SpawnCompanion("kasumi");
+			break;
+		}
+		case IMPULSE_24: {
+			SpawnCompanion("garrus");
+			break;
+		}
+		case IMPULSE_25: {
+			SpawnCompanion("tali");
+			break;
+		}
+		case IMPULSE_26: {
+			SpawnCompanion("mordin");
+			break;
+		}
+		case IMPULSE_27: {
+			SpawnCompanion("liara");
+			break;
+		}
+		//MOD-END
 		case IMPULSE_50: {
 			ToggleFlashlight ( );
 			break;
@@ -9644,6 +9670,43 @@ void idPlayer::Think( void ) {
 
 	inBuyZonePrev = false;
 }
+
+//MOD
+/*
+=================
+idPlayer::SpawnCompanion
+=================
+*/
+void idPlayer::SpawnCompanion(const char* defName) {
+	//Get spawn point in front of the player
+	//TODO Ideally also add some upward direction to the spawn point to avoid companions falling under the level
+	idVec3 forward;
+	viewAngles.ToVectors( &forward );
+	idVec3 spawnPos = GetPhysics()->GetOrigin() + forward * 128.0f;
+
+	//Set spawn point
+	idDict args;
+	args.Set( "origin", spawnPos.ToString() );
+
+	//TODO Ideally also not allow spawning if 2 companions are already active
+	if (!activeCompanions.Get(defName)) {
+		idActor* companion = gameLocal.SpawnSafeEntityDef<idActor>(defName, &args);
+		if (!companion) {
+			gameLocal.Warning("Could not spawn companion '%s'", defName);
+		}
+		else {
+			activeCompanions.Set(defName, companion);
+		}
+	}
+	else {
+		//TODO: Logic works but the wanring never shows
+		gameLocal.Warning("Cannot spawn duplicate teammates '%s'", defName);
+	}
+
+}
+//MOD-END
+
+
 
 /*
 =================
