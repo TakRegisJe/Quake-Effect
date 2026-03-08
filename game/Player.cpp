@@ -8624,6 +8624,9 @@ void idPlayer::PerformImpulse( int impulse ) {
 		case IMPULSE_27: {
 			SpawnCompanion("liara");
 			break;
+		case IMPULSE_30: {
+			ToggleCloak();
+			break;
 		}
 		//MOD-END
 		case IMPULSE_50: {
@@ -9704,6 +9707,7 @@ void idPlayer::SpawnCompanion(const char* defName) {
 	}
 
 }
+
 //MOD-END
 
 

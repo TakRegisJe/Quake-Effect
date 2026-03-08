@@ -63,13 +63,16 @@ const int IMPULSE_19			= 19;			// show PDA/INV/MAP
 const int IMPULSE_20			= 20;			// toggle team ( toggles ui_team )
 const int IMPULSE_21			= 21;			// tourney toggle waiting room/spec
 const int IMPULSE_22			= 22;			// spectate
-const int IMPULSE_23			= 23;			// <unused>
-const int IMPULSE_24			= 24;			// <unused>
-const int IMPULSE_25			= 25;			// <unused>
-const int IMPULSE_26			= 26;			// <unused>
-const int IMPULSE_27			= 27;			// <unused>
+const int IMPULSE_23			= 23;			// spawn kasumi
+const int IMPULSE_24			= 24;			// spawn garrus
+const int IMPULSE_25			= 25;			// spawn tali
+const int IMPULSE_26			= 26;			// spawn mordin
+const int IMPULSE_27			= 27;			// spawn liara
 const int IMPULSE_28			= 28;			// vote yes
 const int IMPULSE_29			= 29;			// vote no
+//MOD
+const int IMPULSE_30			= 30;			// toggle cloak
+//MOD-END
 const int IMPULSE_40			= 40;			// repeast last radio chatter
 
 // RAVEN BEGIN

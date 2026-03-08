@@ -257,6 +257,10 @@ public:
 
 	int						lightningNextTime;
 	int						lightningEffects;
+	
+	//MOD
+	void ToggleCloak(void);
+	//MOD-END
 
 protected:
 	friend class			idAnimState;

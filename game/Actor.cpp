@@ -3853,3 +3853,14 @@ void idActor::GuidedProjectileIncoming( idGuidedProjectile *projectile )
 	}
 }
 // RAVEN END
+
+//MOD
+/*
+=================
+idActor::ToggleCloak
+=================
+*/
+void idActor::ToggleCloak(void) {
+	fl.notarget = !fl.notarget;
+}
+//MOD-END
