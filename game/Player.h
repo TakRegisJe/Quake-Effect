@@ -804,6 +804,9 @@ protected:
 	void					SetupHead( const char* modelKeyName = "", idVec3 headOffset = idVec3(0, 0, 0) );
 
 private:
+	//MOD
+	bool					slowMotionActive;
+	//MOD-END
 	float					vehicleCameraDist;
 
 	jointHandle_t			hipJoint;
@@ -1122,7 +1125,8 @@ private:
 	// RAVEN END
 
 	//MOD
-	void SpawnCompanion( const char* defName );
+	void					SpawnCompanion( const char* defName );
+	void					ToggleSlowMotion(void);
 	//MOD-END
 
 	bool					IsLegsIdle						( bool crouching ) const;

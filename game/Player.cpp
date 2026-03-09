@@ -1081,6 +1081,7 @@ idPlayer::idPlayer() {
 
 	//MOD
 	idHashTable<idActor*> activeCompanions;
+	slowMotionActive		= false;
 	//MOD-END
 
 	alreadyDidTeamAnnouncerSound = false;
@@ -8624,6 +8625,11 @@ void idPlayer::PerformImpulse( int impulse ) {
 		case IMPULSE_27: {
 			SpawnCompanion("liara");
 			break;
+		}
+		case IMPULSE_16: {
+			ToggleSlowMotion();
+			break;
+		}
 		case IMPULSE_30: {
 			ToggleCloak();
 			break;
@@ -9706,6 +9712,22 @@ void idPlayer::SpawnCompanion(const char* defName) {
 		gameLocal.Warning("Cannot spawn duplicate teammates '%s'", defName);
 	}
 
+}
+
+/*
+==============
+idPlayer::ToggleSlowMotion
+==============
+*/
+void idPlayer::ToggleSlowMotion(void) {
+	if (!slowMotionActive) {
+		gameLocal.msec /= 2;
+		slowMotionActive = true;
+	}
+	else {
+		gameLocal.msec *= 2;
+		slowMotionActive = false;
+	}
 }
 
 //MOD-END

@@ -259,7 +259,8 @@ public:
 	int						lightningEffects;
 	
 	//MOD
-	void ToggleCloak(void);
+	void					ToggleCloak( void );
+	void					DominateEnemies( void );
 	//MOD-END
 
 protected:

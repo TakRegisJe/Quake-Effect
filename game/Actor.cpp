@@ -3863,4 +3863,27 @@ idActor::ToggleCloak
 void idActor::ToggleCloak(void) {
 	fl.notarget = !fl.notarget;
 }
+
+/*
+==============
+idActor::DominateEnemies
+==============
+*/
+void idActor::DominateEnemies(void) {
+	idList<idActor*> defectors;
+	for (idActor* actor = aiManager.GetEnemyTeam((aiTeam_t)team);
+		actor;
+		actor = actor->teamNode.Next()) {
+		if (CanSee(actor, true)) {
+			defectors.Append(actor);
+		}
+	}
+
+	for (int i = 0; i < defectors.Num(); i++) {
+		idActor* defector = defectors[i];
+		aiManager.RemoveTeammate(defector);
+		defector->team = team;
+		aiManager.AddTeammate(defector);
+	}
+}
 //MOD-END
