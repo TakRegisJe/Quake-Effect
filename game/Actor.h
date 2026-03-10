@@ -261,6 +261,7 @@ public:
 	//MOD
 	void					ToggleCloak( void );
 	void					DominateEnemies( void );
+	void					Incinerate( void );
 	//MOD-END
 
 protected:

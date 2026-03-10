@@ -3884,6 +3884,43 @@ void idActor::DominateEnemies(void) {
 		aiManager.RemoveTeammate(defector);
 		defector->team = team;
 		aiManager.AddTeammate(defector);
+}
 	}
+
+/*
+==============
+idActor::DominateEnemies
+==============
+*/
+void idActor::Incinerate(void) {
+	
+	//TODO: The following plan
+	//Spawn guided projectile
+	//Get an enemy closest to this actor
+	//Call Guide to on that entity
+
+	/*
+	//Need equivalent view/body origin for any actor
+	muzzleOrigin = playerViewOrigin;
+	muzzleAxis = playerViewAxis;		
+	muzzleOrigin += playerViewAxis[0] * muzzleOffset;
+
+	//Can this be used to spawn a guided projectile?
+	idDict args;
+	idGuidedProjectile* proj = gameLocal.SpawnSafeEntityDef<idGuidedProjectile>(<classname inside projectile def?>, &args);
+
+	//Does a projectile needs to be created first?
+	proj = static_cast<idProjectile*>(ent);
+	proj->Create( owner, muzzleOrigin + startOffset, dir, NULL, owner->extraProjPassEntity );
+
+	//Need to fill these parameters
+	// Launch the actual projectile
+	proj->Launch( muzzle_pos + startOffset, dir, pushVelocity, fuseOffset, power );
+	idGuidedProjectile* guided;
+	guided = dynamic_cast<idGuidedProjectile*>(proj);
+	if (guided) {
+		guided->GuideTo(guideEnt, jointGuideEnt);
+	}
+	*/
 }
 //MOD-END
