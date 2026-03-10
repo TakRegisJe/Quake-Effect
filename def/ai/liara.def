@@ -225,11 +225,12 @@ entityDef char_marine_medic
 ===============================================================================
 */
 
-liara
+entityDef liara
 {
 	"inherit1"						"char_marine_medic_extras"
 	"inherit2"						"char_marine"
 	"editor_ignore"					"0"
+	"npc_name"						"Liara"
 
 	"model"							"model_char_marine_medic"
 	"def_head"						"char_marinehead_helmet_medic"

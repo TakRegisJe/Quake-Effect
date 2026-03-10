@@ -397,6 +397,9 @@ CLASS_DECLARATION( idAFEntity_Gibbable, idActor )
 // MCG: script-callable joint crawl effect
 	EVENT( EV_JointCrawlEffect,			idActor::Event_JointCrawlEffect )
 // RAVEN END
+//MOD
+	//EVENT( EV_AbilityCooldown,			idActor::Event_AbilityCooldown )
+//MOD-END
 
 END_CLASS
 
@@ -438,6 +441,9 @@ idActor::idActor( void )
 
 	painTime			= 0;
 	inDamageEvent		= false;
+	//MOD
+	shockApplied	= false;
+	//MOD-END
 // RAVEN BEGIN
 // bdube: reversed var
 	disablePain			= true;
@@ -2396,7 +2402,24 @@ void idActor::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir
 		gameLocal.Error( "Unknown damageDef '%s'", damageDefName );
 	}
 
-	int	damage = damageDef->GetInt( "damage" ) * damageScale;
+	//MOD
+	float incinerateDamageBonus = 1.0f;
+	if (inflictor->IsEntityDefClass("projectile_incinerate")) {
+		if (damageDef->GetFloat("dmg_boost_duration")) {
+			int endTime = gameLocal.GetTime() + SEC2MS(damageDef->GetFloat("dmg_boost_duration"));
+			int interval = SEC2MS(damageDef->GetFloat("dot_interval", "0"));
+			if (gameLocal.GetTime() + interval <= endTime) {//Apply bonus damage scale
+				incinerateDamageBonus = 3.0f;
+			}
+			else {
+				incinerateDamageBonus = 1.0f;
+			}
+		}
+	}
+
+	//MOD-END
+
+	int	damage = damageDef->GetInt( "damage" ) * damageScale * incinerateDamageBonus;
 	damage = GetDamageForLocation( damage, location );
 
 	// friendly fire damage

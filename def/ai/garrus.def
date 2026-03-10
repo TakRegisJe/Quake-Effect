@@ -2652,6 +2652,7 @@ entityDef garrus
 {
 	"inherit"									"char_marine_combat"
 	"editor_ignore"								"0"
+	"npc_name"									"Garrus"
 
 	// --------------------------------- General ----------------------------------
 	"hidesurface1"								"models/weapons/mp_guns/w_mg_lo"

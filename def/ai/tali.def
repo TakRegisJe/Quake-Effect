@@ -129,6 +129,7 @@ entityDef tali
 	"inherit1"						"char_marine_tech_extras"
 	"inherit2"						"char_marine"
 	"editor_ignore"					"0"
+	"npc_name"						"Tali"
 	
 	"model"							"model_char_marine_tech_armed"
 	"def_head"						"char_marinehead_helmet_tech"

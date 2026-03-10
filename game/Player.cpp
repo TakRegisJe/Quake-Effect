@@ -8606,6 +8606,7 @@ void idPlayer::PerformImpulse( int impulse ) {
 // RITUAL END
 		
 		//MOD
+		idActor** targetCompanion = NULL;
 		case IMPULSE_23: { 
 			SpawnCompanion("kasumi");
 			break;
@@ -8631,12 +8632,24 @@ void idPlayer::PerformImpulse( int impulse ) {
 			break;
 		}
 		case IMPULSE_30: {
-			ToggleCloak();
-			break;
+			if (slowMotionActive && activeCompanions.Get("kasumi", &targetCompanion)) {
+				(**targetCompanion).ToggleCloak();
+				break;
+			}
+			else {
+				ToggleCloak();
+				break;
+			}
 		}
 		case IMPULSE_31: {
-			Incinerate();
-			break;
+			if (slowMotionActive && activeCompanions.Get("garrus", &targetCompanion)) {
+				(**targetCompanion).Incinerate();
+				break;
+			}
+			else {
+				Incinerate();
+				break;
+			}
 		}
 		//MOD-END
 		case IMPULSE_50: {

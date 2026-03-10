@@ -71,7 +71,7 @@ entityDef projectile_incinerate {
 entityDef damage_incinerateSplash 
 {
 	"damage"					"5"
-	"radius"					"20"
+	"radius"					"10"
 	"knockback"					"0"
 	"push"						"0"
 	"gib"						"0"
@@ -90,6 +90,34 @@ entityDef damage_incinerateDirect
 	"deathPush"					"50"
 	"deathPushMin"				"2000 350"
 	"deathPushMax"				"4000 500"
+
+	"bleed"						"0"
+}
+
+entityDef damage_incinerateDot
+{
+	"damage"					"2"
+//	"push"						"0"
+	"gib"						"0"
+	"dot_duration"				"10"
+
+	"deathPush"					"0"
+	"deathPushMin"				"0"
+	"deathPushMax"				"0"
+
+	"bleed"						"0"
+}
+
+entityDef damage_incinerateDmgBoost
+{
+	"damage"					"0"
+//	"push"						"0"
+	"gib"						"0"
+	"dmg_boost_duration"		"10"
+
+	"deathPush"					"0"
+	"deathPushMin"				"0"
+	"deathPushMax"				"0"
 
 	"bleed"						"0"
 }

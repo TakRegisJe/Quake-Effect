@@ -2569,6 +2569,7 @@ entityDef kasumi
 {
 	"inherit"									"char_marine_combat"
 	"editor_ignore"								"0"
+	"npc_name"									"Kasumi"
 
 	// --------------------------------- General ----------------------------------
 	"hidesurface1"								"models/weapons/mp_guns/w_mg_lo"

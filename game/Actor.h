@@ -284,6 +284,9 @@ protected:
 	bool					inDamageEvent;		// hacky-ass bool to prevent us from starting a new EV_DamageOverTime in our ::Damage
 
 	bool					use_combat_bbox;	// whether to use the bounding box for combat collision
+	//MOD
+	bool					shockApplied;
+	//MOD-END
 	
 	// joint handles
 	jointHandle_t			leftEyeJoint;
