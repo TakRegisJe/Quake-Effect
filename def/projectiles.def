@@ -58,3 +58,38 @@ entityDef projectile_bullet
 
 	"snd_ricochet"				"bullet_ricochet"
 }
+
+entityDef projectile_incinerate {
+	"inherit"					"projectile_nail_seek"
+
+	"def_damage"				"damage_incinerateDirect"
+	"def_splash_damage"			"damage_incinerateSplash"
+
+	"speed"						"400"	
+}
+
+entityDef damage_incinerateSplash 
+{
+	"damage"					"5"
+	"radius"					"20"
+	"knockback"					"0"
+	"push"						"0"
+	"gib"						"0"
+
+	"deathPush"					"10"
+	"deathPushMin"				"2000 350"
+	"deathPushMax"				"4000 500"
+}
+
+entityDef damage_incinerateDirect 
+{
+	"damage"					"10"
+//	"push"						"100"
+	"gib"						"0"
+
+	"deathPush"					"50"
+	"deathPushMin"				"2000 350"
+	"deathPushMax"				"4000 500"
+
+	"bleed"						"0"
+}

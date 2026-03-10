@@ -2415,9 +2415,9 @@ void idActor::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir
 				Pain( inflictor, attacker, damage, dir, location );
 			}
 			
-			//reduce the damage
-			damage = 0;
-			noDmgFeedback = true;
+			//reduce the damage by half
+			damage = damage * 0.5;
+			//noDmgFeedback = true;
 		}		
 
 		// reduce friendly fire damage by the teamscale
@@ -3893,34 +3893,19 @@ idActor::DominateEnemies
 ==============
 */
 void idActor::Incinerate(void) {
+	idVec3 muzzleOrigin = GetEyePosition();
+	idMat3 muzzleAxis = viewAxis;
+
+	const idDict* projDict = gameLocal.FindEntityDefDict("projectile_incinerate", false);
 	
-	//TODO: The following plan
-	//Spawn guided projectile
-	//Get an enemy closest to this actor
-	//Call Guide to on that entity
+	idEntity* ent;
+	gameLocal.SpawnEntityDef(*projDict, &ent, false);
+	idGuidedProjectile* proj = static_cast<idGuidedProjectile*>(ent);
+	proj->Create(this, muzzleOrigin, muzzleAxis[0]);
+	proj->Launch(muzzleOrigin, muzzleAxis[0], vec3_origin, 0.0f, 1.0f);
 
-	/*
-	//Need equivalent view/body origin for any actor
-	muzzleOrigin = playerViewOrigin;
-	muzzleAxis = playerViewAxis;		
-	muzzleOrigin += playerViewAxis[0] * muzzleOffset;
+	idEntity* targetEnt = ClosestEnemyToPoint(GetPhysics()->GetOrigin(), 800, false, true);
+	proj->GuideTo(targetEnt, INVALID_JOINT);
 
-	//Can this be used to spawn a guided projectile?
-	idDict args;
-	idGuidedProjectile* proj = gameLocal.SpawnSafeEntityDef<idGuidedProjectile>(<classname inside projectile def?>, &args);
-
-	//Does a projectile needs to be created first?
-	proj = static_cast<idProjectile*>(ent);
-	proj->Create( owner, muzzleOrigin + startOffset, dir, NULL, owner->extraProjPassEntity );
-
-	//Need to fill these parameters
-	// Launch the actual projectile
-	proj->Launch( muzzle_pos + startOffset, dir, pushVelocity, fuseOffset, power );
-	idGuidedProjectile* guided;
-	guided = dynamic_cast<idGuidedProjectile*>(proj);
-	if (guided) {
-		guided->GuideTo(guideEnt, jointGuideEnt);
-	}
-	*/
 }
 //MOD-END

@@ -8634,6 +8634,10 @@ void idPlayer::PerformImpulse( int impulse ) {
 			ToggleCloak();
 			break;
 		}
+		case IMPULSE_31: {
+			Incinerate();
+			break;
+		}
 		//MOD-END
 		case IMPULSE_50: {
 			ToggleFlashlight ( );
