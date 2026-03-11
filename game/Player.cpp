@@ -8667,6 +8667,17 @@ void idPlayer::PerformImpulse( int impulse ) {
 				break;
 			}
 		}
+		case IMPULSE_34: {
+			if (slowMotionActive && activeCompanions.Get("tali", &targetCompanion)) {
+				(**targetCompanion).HealCompanions();
+				break;
+			}
+			else {
+				HealCompanions();
+				break;
+			}
+		}
+
 		//MOD-END
 		case IMPULSE_50: {
 			ToggleFlashlight ( );
