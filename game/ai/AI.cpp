@@ -1142,6 +1142,15 @@ void idAI::Think( void ) {
 		return;
 	}
 
+	//MOD
+	//Display health
+	idPlayer* player = gameLocal.GetLocalPlayer();
+	if (player) {
+		idVec3 pos = GetPhysics()->GetOrigin();
+		pos.z += 72.0f;
+		gameRenderWorld->DrawTextA(va("%d", health), pos, 0.3f, colorGreen, player->viewAngles.ToMat3());
+	}
+
 	// Simple think this frame?
 	aifl.simpleThink = aiManager.IsSimpleThink ( this );
 
