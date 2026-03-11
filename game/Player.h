@@ -1127,6 +1127,7 @@ private:
 	//MOD
 	void					SpawnCompanion( const char* defName );
 	void					ToggleSlowMotion(void);
+	void					SpawnEnemy(const char* defName);
 	//MOD-END
 
 	bool					IsLegsIdle						( bool crouching ) const;

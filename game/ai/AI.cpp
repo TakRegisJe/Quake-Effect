@@ -1627,6 +1627,17 @@ void idAI::Killed( idEntity *inflictor, idEntity *attacker, int damage, const id
 
 	aifl.dead = true;
 
+	//MOD
+	//Remove from active companion list if companion
+	if (IsEntityDefClass("garrus") || IsEntityDefClass("kasumi") || IsEntityDefClass("tali") || IsEntityDefClass("mordin") || IsEntityDefClass("liara")) {
+		const char* className = GetEntityDefClassName();
+		idPlayer* player = gameLocal.GetLocalPlayer();
+		if (player) {
+			player->activeCompanions.Remove(className);
+		}
+	}
+	//MOD-END
+
 	// turn off my flashlight, if I had one
 	ProcessEvent( &AI_Flashlight, false );
 

@@ -73,6 +73,8 @@ const int IMPULSE_29			= 29;			// vote no
 //MOD
 const int IMPULSE_30			= 30;			// toggle cloak
 const int IMPULSE_31			= 31;			// incinerate
+const int IMPULSE_32			= 32;			// spawn enemy
+const int IMPULSE_33			= 33;			// dominate
 //MOD-END
 const int IMPULSE_40			= 40;			// repeast last radio chatter
 

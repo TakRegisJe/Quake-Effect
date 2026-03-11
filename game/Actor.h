@@ -262,6 +262,7 @@ public:
 	void					ToggleCloak( void );
 	void					DominateEnemies( void );
 	void					Incinerate( void );
+	void					HealCompanions( void );
 	//MOD-END
 
 protected:
@@ -286,6 +287,7 @@ protected:
 	bool					use_combat_bbox;	// whether to use the bounding box for combat collision
 	//MOD
 	bool					shockApplied;
+	int						incinerateBoostTime;
 	//MOD-END
 	
 	// joint handles

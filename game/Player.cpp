@@ -8480,6 +8480,9 @@ void idPlayer::PerformImpulse( int impulse ) {
 #endif
 //RAVEN END
 
+	//MOD
+	idActor** targetCompanion = NULL;
+	//MOD-END
 	switch( impulse ) {
 		case IMPULSE_13: {
 			Reload();
@@ -8606,7 +8609,6 @@ void idPlayer::PerformImpulse( int impulse ) {
 // RITUAL END
 		
 		//MOD
-		idActor** targetCompanion = NULL;
 		case IMPULSE_23: { 
 			SpawnCompanion("kasumi");
 			break;
@@ -8625,6 +8627,10 @@ void idPlayer::PerformImpulse( int impulse ) {
 		}
 		case IMPULSE_27: {
 			SpawnCompanion("liara");
+			break;
+		}
+		case IMPULSE_32: {
+			SpawnEnemy("monster_stroggmarine");
 			break;
 		}
 		case IMPULSE_16: {
@@ -8648,6 +8654,16 @@ void idPlayer::PerformImpulse( int impulse ) {
 			}
 			else {
 				Incinerate();
+				break;
+			}
+		}
+		case IMPULSE_33: {
+			if (slowMotionActive && activeCompanions.Get("liara", &targetCompanion)) {
+				(**targetCompanion).DominateEnemies();
+				break;
+			}
+			else {
+				DominateEnemies();
 				break;
 			}
 		}
@@ -9705,17 +9721,16 @@ idPlayer::SpawnCompanion
 */
 void idPlayer::SpawnCompanion(const char* defName) {
 	//Get spawn point in front of the player
-	//TODO Ideally also add some upward direction to the spawn point to avoid companions falling under the level
 	idVec3 forward;
 	viewAngles.ToVectors( &forward );
 	idVec3 spawnPos = GetPhysics()->GetOrigin() + forward * 128.0f;
+	spawnPos.z += 16.0f;
 
 	//Set spawn point
 	idDict args;
 	args.Set( "origin", spawnPos.ToString() );
 
-	//TODO Ideally also not allow spawning if 2 companions are already active
-	if (!activeCompanions.Get(defName)) {
+	if (!activeCompanions.Get(defName) && activeCompanions.Num() < 2) {
 		idActor* companion = gameLocal.SpawnSafeEntityDef<idActor>(defName, &args);
 		if (!companion) {
 			gameLocal.Warning("Could not spawn companion '%s'", defName);
@@ -9725,7 +9740,6 @@ void idPlayer::SpawnCompanion(const char* defName) {
 		}
 	}
 	else {
-		//TODO: Logic works but the wanring never shows
 		gameLocal.Warning("Cannot spawn duplicate teammates '%s'", defName);
 	}
 
@@ -9745,6 +9759,25 @@ void idPlayer::ToggleSlowMotion(void) {
 		gameLocal.msec *= 2;
 		slowMotionActive = false;
 	}
+}
+
+/*
+=================
+idPlayer::SpawnEnemy
+=================
+*/
+void idPlayer::SpawnEnemy(const char* defName) {
+	//Get spawn point in front of the player
+	idVec3 forward;
+	viewAngles.ToVectors(&forward);
+	idVec3 spawnPos = GetPhysics()->GetOrigin() + forward * 128.0f;
+	spawnPos.z += 16.0f;
+
+	//Set spawn point
+	idDict args;
+	args.Set("origin", spawnPos.ToString());
+
+	idAI* enemy = gameLocal.SpawnSafeEntityDef<idAI>(defName, &args);
 }
 
 //MOD-END

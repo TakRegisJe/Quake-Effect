@@ -442,7 +442,8 @@ idActor::idActor( void )
 	painTime			= 0;
 	inDamageEvent		= false;
 	//MOD
-	shockApplied	= false;
+	shockApplied		= false;
+	incinerateBoostTime = 0;
 	//MOD-END
 // RAVEN BEGIN
 // bdube: reversed var
@@ -2406,10 +2407,9 @@ void idActor::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir
 	float incinerateDamageBonus = 1.0f;
 	if (inflictor->IsEntityDefClass("projectile_incinerate")) {
 		if (damageDef->GetFloat("dmg_boost_duration")) {
-			int endTime = gameLocal.GetTime() + SEC2MS(damageDef->GetFloat("dmg_boost_duration"));
-			int interval = SEC2MS(damageDef->GetFloat("dot_interval", "0"));
-			if (gameLocal.GetTime() + interval <= endTime) {//Apply bonus damage scale
-				incinerateDamageBonus = 3.0f;
+			incinerateBoostTime = gameLocal.GetTime() + SEC2MS(damageDef->GetFloat("dmg_boost_duration"));
+			if (gameLocal.GetTime() < incinerateBoostTime) {//Apply bonus damage scale
+				incinerateDamageBonus = 10.0f;
 			}
 			else {
 				incinerateDamageBonus = 1.0f;
@@ -3930,5 +3930,23 @@ void idActor::Incinerate(void) {
 	idEntity* targetEnt = ClosestEnemyToPoint(GetPhysics()->GetOrigin(), 800, false, true);
 	proj->GuideTo(targetEnt, INVALID_JOINT);
 
+}
+
+/*
+==============
+idActor::HealCompanions
+==============
+*/
+void idActor::HealCompanions(void) {
+	idPlayer* player = gameLocal.GetLocalPlayer();
+	idActor* companion = NULL;
+	int maxHealth = 0;
+	if (player) {
+		for (int i = 0; i < player->activeCompanions.Num(); i++) {
+			companion = *(player->activeCompanions.GetIndex(i));
+			maxHealth = companion->spawnArgs.GetInt("health");
+			companion->health = Min(companion->health + 50, maxHealth);
+		}
+	}
 }
 //MOD-END
