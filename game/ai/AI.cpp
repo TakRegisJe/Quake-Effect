@@ -1144,11 +1144,13 @@ void idAI::Think( void ) {
 
 	//MOD
 	//Display health
-	idPlayer* player = gameLocal.GetLocalPlayer();
-	if (player) {
-		idVec3 pos = GetPhysics()->GetOrigin();
-		pos.z += 72.0f;
-		gameRenderWorld->DrawTextA(va("%d", health), pos, 0.3f, colorGreen, player->viewAngles.ToMat3());
+	if (IsEntityDefClass("monster_stroggmarine")) {
+		idPlayer* player = gameLocal.GetLocalPlayer();
+		if (player) {
+			idVec3 pos = GetPhysics()->GetOrigin();
+			pos.z += 72.0f;
+			gameRenderWorld->DrawTextA(va("%d", health), pos, 0.3f, colorGreen, player->viewAngles.ToMat3());
+		}
 	}
 
 	// Simple think this frame?

@@ -8630,7 +8630,7 @@ void idPlayer::PerformImpulse( int impulse ) {
 			break;
 		}
 		case IMPULSE_32: {
-			SpawnEnemy("monster_stroggmarine");
+			SpawnEnemy("monster_strogg_marine");
 			break;
 		}
 		case IMPULSE_16: {
@@ -9735,7 +9735,7 @@ void idPlayer::SpawnCompanion(const char* defName) {
 	idVec3 forward;
 	viewAngles.ToVectors( &forward );
 	idVec3 spawnPos = GetPhysics()->GetOrigin() + forward * 128.0f;
-	spawnPos.z += 16.0f;
+	spawnPos.z += 40.0f;
 
 	//Set spawn point
 	idDict args;
@@ -9782,7 +9782,7 @@ void idPlayer::SpawnEnemy(const char* defName) {
 	idVec3 forward;
 	viewAngles.ToVectors(&forward);
 	idVec3 spawnPos = GetPhysics()->GetOrigin() + forward * 128.0f;
-	spawnPos.z += 16.0f;
+	spawnPos.z += 40.0f;
 
 	//Set spawn point
 	idDict args;
