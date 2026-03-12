@@ -8657,12 +8657,12 @@ void idPlayer::PerformImpulse( int impulse ) {
 			break;
 		}
 		case IMPULSE_30: {
-			if (slowMotionActive && activeCompanions.Get("kasumi", &targetCompanion) && (gameLocal.GetTime() <= companion_cloakTimeStamp || companion_cloakTimeStamp == 0)) {
+			if (slowMotionActive && activeCompanions.Get("kasumi", &targetCompanion) && (gameLocal.GetTime() >= companion_cloakTimeStamp || companion_cloakTimeStamp == 0)) {
 				(**targetCompanion).ToggleCloak();
 				companion_cloakTimeStamp = gameLocal.GetTime() + SEC2MS(cloakCooldown) + SEC2MS(cloakDuration);
 				break;
 			}
-			else if (gameLocal.GetTime() <= cloakTimeStamp || cloakTimeStamp == 0) {
+			else if (gameLocal.GetTime() >= cloakTimeStamp || cloakTimeStamp == 0) {
 				ToggleCloak();
 				cloakTimeStamp = gameLocal.GetTime() + SEC2MS(cloakCooldown * playerStats.GetFloat("ability")) + SEC2MS(cloakDuration);
 				break;
@@ -8672,14 +8672,14 @@ void idPlayer::PerformImpulse( int impulse ) {
 			}
 		}
 		case IMPULSE_31: {
-			if (slowMotionActive && activeCompanions.Get("garrus", &targetCompanion) && (gameLocal.GetTime() <= companion_incTimeStamp || companion_incTimeStamp == 0)) {
+			if (slowMotionActive && activeCompanions.Get("garrus", &targetCompanion) && (gameLocal.GetTime() >= companion_incTimeStamp || companion_incTimeStamp == 0)) {
 				(**targetCompanion).Incinerate();
 				companion_incTimeStamp = gameLocal.GetTime() + SEC2MS(incCooldown);
 				break;
 			}
-			else if (gameLocal.GetTime() <= incTimeStamp || incTimeStamp == 0) {
+			else if (gameLocal.GetTime() >= incTimeStamp || incTimeStamp == 0) {
 				Incinerate();
-				cloakTimeStamp = gameLocal.GetTime() + SEC2MS(incCooldown * playerStats.GetFloat("ability"));
+				incTimeStamp = gameLocal.GetTime() + SEC2MS(incCooldown * playerStats.GetFloat("ability"));
 				break;
 			}
 			else {
@@ -8687,14 +8687,14 @@ void idPlayer::PerformImpulse( int impulse ) {
 			}
 		}
 		case IMPULSE_33: {
-			if (slowMotionActive && activeCompanions.Get("liara", &targetCompanion) && (gameLocal.GetTime() <= companion_dominateTimeStamp || companion_dominateTimeStamp == 0)) {
+			if (slowMotionActive && activeCompanions.Get("liara", &targetCompanion) && (gameLocal.GetTime() >= companion_dominateTimeStamp || companion_dominateTimeStamp == 0)) {
 				(**targetCompanion).DominateEnemies();
-				companion_cloakTimeStamp = gameLocal.GetTime() + SEC2MS(dominateCooldown);
+				companion_dominateTimeStamp = gameLocal.GetTime() + SEC2MS(dominateCooldown);
 				break;
 			}
-			else if (gameLocal.GetTime() <= dominateTimeStamp || dominateTimeStamp == 0) {
+			else if (gameLocal.GetTime() >= dominateTimeStamp || dominateTimeStamp == 0) {
 				DominateEnemies();
-				cloakTimeStamp = gameLocal.GetTime() + SEC2MS(dominateCooldown * playerStats.GetFloat("ability"));
+				dominateTimeStamp = gameLocal.GetTime() + SEC2MS(dominateCooldown * playerStats.GetFloat("ability"));
 				break;
 			}
 			else {
@@ -8702,14 +8702,14 @@ void idPlayer::PerformImpulse( int impulse ) {
 			}
 		}
 		case IMPULSE_34: {
-			if (slowMotionActive && activeCompanions.Get("tali", &targetCompanion) && (gameLocal.GetTime() <= companion_healTimeStamp || companion_healTimeStamp == 0)) {
+			if (slowMotionActive && activeCompanions.Get("tali", &targetCompanion) && (gameLocal.GetTime() >= companion_healTimeStamp || companion_healTimeStamp == 0)) {
 				(**targetCompanion).HealCompanions();
-				companion_cloakTimeStamp = gameLocal.GetTime() + SEC2MS(healCooldown);
+				companion_healTimeStamp = gameLocal.GetTime() + SEC2MS(healCooldown);
 				break;
 			}
-			else if (gameLocal.GetTime() <= healTimeStamp || healTimeStamp == 0) {
+			else if (gameLocal.GetTime() >= healTimeStamp || healTimeStamp == 0) {
 				HealCompanions();
-				cloakTimeStamp = gameLocal.GetTime() + SEC2MS(healCooldown * playerStats.GetFloat("ability"));
+				healTimeStamp = gameLocal.GetTime() + SEC2MS(healCooldown * playerStats.GetFloat("ability"));
 				break;
 			}
 			else {

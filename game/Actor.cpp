@@ -444,6 +444,7 @@ idActor::idActor( void )
 	//MOD
 	shockApplied		= false;
 	incinerateBoostTime = 0;
+	isIncinerateBonusDamage = false;
 	//MOD-END
 // RAVEN BEGIN
 // bdube: reversed var
@@ -2405,20 +2406,24 @@ void idActor::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir
 
 	//MOD
 	float incinerateDamageBonus = 1.0f;
-	if (inflictor->IsEntityDefClass("projectile_incinerate")) {
-		if (damageDef->GetFloat("dmg_boost_duration")) {
-			incinerateBoostTime = gameLocal.GetTime() + SEC2MS(damageDef->GetFloat("dmg_boost_duration"));
-			if (gameLocal.GetTime() < incinerateBoostTime) {//Apply bonus damage scale
-				incinerateDamageBonus = 10.0f;
-			}
-			else {
-				incinerateDamageBonus = 1.0f;
-			}
+	if (inflictor->IsEntityDefClass("projectile_incinerate") && !isIncinerateBonusDamage) {
+		const idDict* projDict = gameLocal.FindEntityDefDict("projectile_incinerate", false);
+		if (projDict->GetFloat("dmg_boost_duration", "10")) {
+			isIncinerateBonusDamage = true;
+			incinerateBoostTime = gameLocal.GetTime() + SEC2MS(projDict->GetFloat("dmg_boost_duration", "10"));
 		}
 	}
 
-	//MOD-END
+	if (gameLocal.GetTime() < incinerateBoostTime) {//Apply bonus damage scale
+		incinerateDamageBonus = 10.0f;
+	}
+	else {
+		incinerateDamageBonus = 1.0f;
+		isIncinerateBonusDamage = false;
+	}
 
+	//MOD-END
+	gameLocal.Printf("Damage Bonus is %f\n", incinerateDamageBonus);
 	int	damage = damageDef->GetInt( "damage" ) * damageScale * incinerateDamageBonus;
 	damage = GetDamageForLocation( damage, location );
 
@@ -3912,7 +3917,7 @@ void idActor::DominateEnemies(void) {
 
 /*
 ==============
-idActor::DominateEnemies
+idActor::IncinerateEnemies
 ==============
 */
 void idActor::Incinerate(void) {

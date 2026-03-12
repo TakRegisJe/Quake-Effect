@@ -288,6 +288,7 @@ protected:
 	//MOD
 	bool					shockApplied;
 	int						incinerateBoostTime;
+	bool					isIncinerateBonusDamage;
 	//MOD-END
 	
 	// joint handles
