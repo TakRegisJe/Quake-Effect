@@ -288,6 +288,7 @@ public:
 
 	//MOD
 	idHashTable<idActor*> activeCompanions;
+	idDict playerStats;
 	//MOD-END
 
 	bool					alreadyDidTeamAnnouncerSound;
@@ -806,6 +807,20 @@ protected:
 private:
 	//MOD
 	bool					slowMotionActive;
+	float					savedAwareness;
+	int						cloakTimeStamp;
+	int						cloakCooldown;
+	int						cloakDuration;
+	int						incTimeStamp;
+	int						incCooldown;
+	int						dominateTimeStamp;
+	int						dominateCooldown;
+	int						healTimeStamp;
+	int						healCooldown;
+	int						companion_cloakTimeStamp;
+	int						companion_incTimeStamp;
+	int						companion_dominateTimeStamp;
+	int						companion_healTimeStamp;
 	//MOD-END
 	float					vehicleCameraDist;
 

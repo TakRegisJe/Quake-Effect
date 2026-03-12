@@ -2711,6 +2711,10 @@ void rvWeapon::LaunchProjectiles ( idDict& dict, const idVec3& muzzleOrigin, con
 			muzzle_pos = tr.endpos;
 		}
 		
+		//MOD
+		//Further scale projectile power (damage) by the player stat, 1.0 by default
+		power *= owner->playerStats.GetFloat("damage");
+		//MOD-END
 		// Launch the actual projectile
 		proj->Launch( muzzle_pos + startOffset, dir, pushVelocity, fuseOffset, power );
 		

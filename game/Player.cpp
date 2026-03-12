@@ -1082,6 +1082,25 @@ idPlayer::idPlayer() {
 	//MOD
 	idHashTable<idActor*> activeCompanions;
 	slowMotionActive		= false;
+	savedAwareness = 1.5f;
+	playerStats.SetFloat("armor", 1.0f); //Damage mitigation
+	playerStats.SetFloat("speed", 1.0f); //Player movement speed
+	playerStats.SetFloat("ability", 1.0f); //Ability recharge
+	playerStats.SetFloat("awareness", 1.5f); //Time slow strength
+	playerStats.SetFloat("damage", 1.0f); //General damage bonus
+	cloakTimeStamp = 0;
+	cloakCooldown = 10;
+	cloakDuration = 10;
+	incTimeStamp= 0;
+	incCooldown = 10;
+	dominateTimeStamp = 0;
+	dominateCooldown = 10;
+	healTimeStamp = 0;
+	healCooldown = 0;
+	companion_cloakTimeStamp = 0;
+	companion_incTimeStamp = 0;
+	companion_dominateTimeStamp = 0;
+	companion_healTimeStamp = 0;
 	//MOD-END
 
 	alreadyDidTeamAnnouncerSound = false;
@@ -8638,42 +8657,62 @@ void idPlayer::PerformImpulse( int impulse ) {
 			break;
 		}
 		case IMPULSE_30: {
-			if (slowMotionActive && activeCompanions.Get("kasumi", &targetCompanion)) {
+			if (slowMotionActive && activeCompanions.Get("kasumi", &targetCompanion) && (gameLocal.GetTime() <= companion_cloakTimeStamp || companion_cloakTimeStamp == 0)) {
 				(**targetCompanion).ToggleCloak();
+				companion_cloakTimeStamp = gameLocal.GetTime() + SEC2MS(cloakCooldown) + SEC2MS(cloakDuration);
+				break;
+			}
+			else if (gameLocal.GetTime() <= cloakTimeStamp || cloakTimeStamp == 0) {
+				ToggleCloak();
+				cloakTimeStamp = gameLocal.GetTime() + SEC2MS(cloakCooldown * playerStats.GetFloat("ability")) + SEC2MS(cloakDuration);
 				break;
 			}
 			else {
-				ToggleCloak();
 				break;
 			}
 		}
 		case IMPULSE_31: {
-			if (slowMotionActive && activeCompanions.Get("garrus", &targetCompanion)) {
+			if (slowMotionActive && activeCompanions.Get("garrus", &targetCompanion) && (gameLocal.GetTime() <= companion_incTimeStamp || companion_incTimeStamp == 0)) {
 				(**targetCompanion).Incinerate();
+				companion_incTimeStamp = gameLocal.GetTime() + SEC2MS(incCooldown);
+				break;
+			}
+			else if (gameLocal.GetTime() <= incTimeStamp || incTimeStamp == 0) {
+				Incinerate();
+				cloakTimeStamp = gameLocal.GetTime() + SEC2MS(incCooldown * playerStats.GetFloat("ability"));
 				break;
 			}
 			else {
-				Incinerate();
 				break;
 			}
 		}
 		case IMPULSE_33: {
-			if (slowMotionActive && activeCompanions.Get("liara", &targetCompanion)) {
+			if (slowMotionActive && activeCompanions.Get("liara", &targetCompanion) && (gameLocal.GetTime() <= companion_dominateTimeStamp || companion_dominateTimeStamp == 0)) {
 				(**targetCompanion).DominateEnemies();
+				companion_cloakTimeStamp = gameLocal.GetTime() + SEC2MS(dominateCooldown);
+				break;
+			}
+			else if (gameLocal.GetTime() <= dominateTimeStamp || dominateTimeStamp == 0) {
+				DominateEnemies();
+				cloakTimeStamp = gameLocal.GetTime() + SEC2MS(dominateCooldown * playerStats.GetFloat("ability"));
 				break;
 			}
 			else {
-				DominateEnemies();
 				break;
 			}
 		}
 		case IMPULSE_34: {
-			if (slowMotionActive && activeCompanions.Get("tali", &targetCompanion)) {
+			if (slowMotionActive && activeCompanions.Get("tali", &targetCompanion) && (gameLocal.GetTime() <= companion_healTimeStamp || companion_healTimeStamp == 0)) {
 				(**targetCompanion).HealCompanions();
+				companion_cloakTimeStamp = gameLocal.GetTime() + SEC2MS(healCooldown);
+				break;
+			}
+			else if (gameLocal.GetTime() <= healTimeStamp || healTimeStamp == 0) {
+				HealCompanions();
+				cloakTimeStamp = gameLocal.GetTime() + SEC2MS(healCooldown * playerStats.GetFloat("ability"));
 				break;
 			}
 			else {
-				HealCompanions();
 				break;
 			}
 		}
@@ -8832,6 +8871,9 @@ void idPlayer::AdjustSpeed( void ) {
 	}
 
 	speed *= PowerUpModifier(PMOD_SPEED);
+	//MOD
+	speed *= playerStats.GetFloat("speed");
+	//MOD-END
 
 	if ( influenceActive == INFLUENCE_LEVEL3 ) {
 		speed *= 0.33f;
@@ -9763,11 +9805,12 @@ idPlayer::ToggleSlowMotion
 */
 void idPlayer::ToggleSlowMotion(void) {
 	if (!slowMotionActive) {
-		gameLocal.msec /= 2;
+		savedAwareness = playerStats.GetFloat("awareness");
+		gameLocal.msec /= savedAwareness;
 		slowMotionActive = true;
 	}
 	else {
-		gameLocal.msec *= 2;
+		gameLocal.msec *= savedAwareness;
 		slowMotionActive = false;
 	}
 }
@@ -10142,7 +10185,10 @@ void idPlayer::CalcDamagePoints( idEntity *inflictor, idEntity *attacker, const 
 		}
 	}
 
-	damage = ceil(damageScale*(float)damage);
+	//MOD
+	float damageReductionStat = playerStats.GetFloat("armor"); //1.0 by default
+	damage = ceil(damageReductionStat*damageScale*(float)damage);
+	//MOD-END
 
 	pDmgScale = damageDef->GetFloat( "playerScale", "1" );
 	damage = ceil(pDmgScale*(float)damage);
