@@ -1144,12 +1144,12 @@ void idAI::Think( void ) {
 
 	//MOD
 	//Display health
-	if (IsEntityDefClass("monster_stroggmarine")) {
+	if (IsEntityDefClass("monster_strogg_marine") || IsEntityDefClass("garrus") || IsEntityDefClass("kasumi") || IsEntityDefClass("tali") || IsEntityDefClass("mordin") || IsEntityDefClass("liara")) {
 		idPlayer* player = gameLocal.GetLocalPlayer();
 		if (player) {
 			idVec3 pos = GetPhysics()->GetOrigin();
 			pos.z += 72.0f;
-			gameRenderWorld->DrawTextA(va("%d", health), pos, 0.3f, colorGreen, player->viewAngles.ToMat3());
+			gameRenderWorld->DrawText(va("%d", health), pos, 0.3f, colorGreen, player->viewAngles.ToMat3());
 		}
 	}
 
