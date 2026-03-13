@@ -345,6 +345,11 @@ public:
 
  	idUserInterface *		hud;				// Common hud
 	idUserInterface *		mphud;				// hud overlay containing MP elements
+
+	//MOD
+	idUserInterface *		statsUpgrade;		// Stats upgrade screen
+	bool					statsUpgradeOpen;
+	//MOD-END
 	
 	idUserInterface *		objectiveSystem;
 	idUserInterface *		cinematicHud;
@@ -1143,6 +1148,7 @@ private:
 	void					SpawnCompanion( const char* defName );
 	void					ToggleSlowMotion(void);
 	void					SpawnEnemy(const char* defName);
+	void					HandleStatsUpgradeCommads();
 	//MOD-END
 
 	bool					IsLegsIdle						( bool crouching ) const;

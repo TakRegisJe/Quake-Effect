@@ -88,6 +88,7 @@ entityDef damage_incinerateDot
 //	"push"						"0"
 	"gib"						"0"
 	"dot_duration"				"10"
+	"dot_interval"				"1"
 
 	"deathPush"					"0"
 	"deathPushMin"				"0"

@@ -1,0 +1,35 @@
+  windowDef Desktop {
+      rect 0, 0, 640, 480
+      backcolor 0, 0, 0, 0.7
+      windowDef title {
+          rect 220, 20, 200, 30
+          text "UPGRADE STATS"
+          textscale 0.4
+          forecolor 1, 1, 0, 1
+      }
+      windowDef strength_label {
+          rect 100, 100, 200, 25
+          text "gui::stat_damage"   // binds to state variable
+          textscale 0.3
+          forecolor 1, 1, 1, 1
+      }
+      windowDef strength_btn {
+          rect 320, 100, 80, 25
+          text "UPGRADE"
+          textscale 0.3
+          forecolor 0, 1, 0, 1
+          onAction {
+              set "cmd" "upgrade damage"   // sent to HandleGuiCommands
+          }
+      }
+      windowDef close_btn {
+          rect 280, 420, 80, 25
+          text "CLOSE"
+          textscale 0.3
+          forecolor 1, 0, 0, 1
+          onAction {
+              set "cmd" "close"
+          }
+      }
+  }
+

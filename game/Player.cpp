@@ -1096,7 +1096,7 @@ idPlayer::idPlayer() {
 	dominateTimeStamp = 0;
 	dominateCooldown = 10;
 	healTimeStamp = 0;
-	healCooldown = 0;
+	healCooldown = 10;
 	companion_cloakTimeStamp = 0;
 	companion_incTimeStamp = 0;
 	companion_dominateTimeStamp = 0;
@@ -1132,6 +1132,10 @@ idPlayer::idPlayer() {
 	mphud					= NULL;
 	objectiveSystem			= NULL;
 	objectiveSystemOpen		= false;
+	//MOD
+	statsUpgrade			= NULL;
+	statsUpgradeOpen		= false;
+	//MOD
 	showNewObjectives		= false;
 #ifdef _XENON
 	g_ObjectiveSystemOpen	= false;
@@ -1869,6 +1873,9 @@ void idPlayer::Spawn( void ) {
 		overlayHudTime = 0;
 		
 		objectiveSystem = NULL;
+		//MOD
+		statsUpgrade = NULL;
+		//MOD-END
 
 		if ( spawnArgs.GetString( "hud", "", temp ) ) {
 			hud = uiManager->FindGui( temp, true, false, true );
@@ -1907,6 +1914,10 @@ void idPlayer::Spawn( void ) {
 		if ( !gameLocal.isMultiplayer ) {
 			objectiveSystem = uiManager->FindGui( spawnArgs.GetString( "wristcomm", "guis/wristcomm.gui" ), true, false, true );
 			objectiveSystemOpen = false;
+			//MOD
+			statsUpgrade = uiManager->FindGui(spawnArgs.GetString("stats_upgrade", "guis/stats_upgrade.gui"), true, false, true);
+			statsUpgradeOpen = false;
+			//MOD-END
 #ifdef _XENON
 			g_ObjectiveSystemOpen = objectiveSystemOpen;
 #endif
@@ -3671,8 +3682,8 @@ void idPlayer::DrawHUD( idUserInterface *_hud ) {
 	if ( disableHud || influenceActive != INFLUENCE_NONE || privateCameraView || !_hud || !g_showHud.GetBool() ) {
 		return;
 	}
-
-	if ( objectiveSystemOpen ) {
+	//MOD
+	if ( objectiveSystemOpen || statsUpgradeOpen ) {	//MOD-END
 		if ( !GuiActive() ) {
 			// showing weapon zoom gui when objectives are open because that's the way I'z told to make it werkz
 			if ( weapon && weapon->GetZoomGui( ) && zoomed ) {
@@ -6273,7 +6284,8 @@ void idPlayer::Weapon_GUI( void ) {
 
 	flagCanFire = false;
 
-	if ( !objectiveSystemOpen ) {
+	//MOD
+	if ( !objectiveSystemOpen && !statsUpgradeOpen ) {	//MOD-END
 		if ( idealWeapon != currentWeapon ) {
 			Weapon_Combat();
 		}
@@ -8716,6 +8728,19 @@ void idPlayer::PerformImpulse( int impulse ) {
 				break;
 			}
 		}
+		case IMPULSE_35: {
+			statsUpgradeOpen = !statsUpgradeOpen;
+			if (statsUpgradeOpen) {
+				statsUpgrade->SetStateFloat("damage", playerStats.GetFloat("damage", "1.0"));
+				statsUpgrade->SetStateFloat("speed", playerStats.GetFloat("speed", "1.0"));
+				statsUpgrade->SetStateFloat("ability", playerStats.GetFloat("ability", "1.0"));
+				statsUpgrade->SetStateFloat("awareness", playerStats.GetFloat("awareness", "1.5"));
+				statsUpgrade->SetStateFloat("armor", playerStats.GetFloat("armor", "1.0"));
+				statsUpgrade->Activate(true, gameLocal.time);
+				statsUpgrade->HandleNamedEvent("open");
+				
+			}
+		}
 
 		//MOD-END
 		case IMPULSE_50: {
@@ -9764,9 +9789,21 @@ void idPlayer::Think( void ) {
 		inBuyZone = false;
 
 	inBuyZonePrev = false;
+
+	if (statsUpgradeOpen) {
+		HandleStatsUpgradeCommads();
+	}
 }
 
 //MOD
+/*
+=================
+idPlayer::HandleStatsUpgradeCommands
+=================
+*/
+void HandleStatsUpgradeCommands(void) {
+
+}
 /*
 =================
 idPlayer::SpawnCompanion

@@ -76,6 +76,7 @@ const int IMPULSE_31			= 31;			// incinerate
 const int IMPULSE_32			= 32;			// spawn enemy
 const int IMPULSE_33			= 33;			// dominate
 const int IMPULSE_34			= 34;			// heal companions
+const int IMPULSE_35			= 35;			// open stat upgrade menu
 //MOD-END
 const int IMPULSE_40			= 40;			// repeast last radio chatter
 

@@ -2422,9 +2422,16 @@ void idActor::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir
 		isIncinerateBonusDamage = false;
 	}
 
-	//MOD-END
 	gameLocal.Printf("Damage Bonus is %f\n", incinerateDamageBonus);
-	int	damage = damageDef->GetInt( "damage" ) * damageScale * incinerateDamageBonus;
+
+	int damage = 1;
+	if (damageDef->GetFloat("dot_duration")) { //Prevent damage from being applied to tick damage
+		damage = damageDef->GetInt("damage") * damageScale;
+	}
+	else {
+		damage = damageDef->GetInt("damage") * damageScale * incinerateDamageBonus;
+	}
+	//MOD-END
 	damage = GetDamageForLocation( damage, location );
 
 	// friendly fire damage
