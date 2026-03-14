@@ -574,6 +574,10 @@ void idPlayerView::SingleView( idUserInterface *hud, const renderView_t *view, i
 			player->objectiveSystem->Redraw( gameLocal.time );
 		}		
 		// RAVEN END
+		//MOD
+		if (player->statsUpgrade && player->statsUpgradeOpen) {
+			player->statsUpgrade->Redraw(gameLocal.time);
+		}
 	}
 
 	// test a single material drawn over everything

@@ -9791,7 +9791,8 @@ void idPlayer::Think( void ) {
 	inBuyZonePrev = false;
 
 	if (statsUpgradeOpen) {
-		HandleStatsUpgradeCommads();
+		usercmd.buttons &= ~BUTTON_ATTACK;
+		HandleStatsUpgradeCommands();
 	}
 }
 
@@ -9801,8 +9802,40 @@ void idPlayer::Think( void ) {
 idPlayer::HandleStatsUpgradeCommands
 =================
 */
-void HandleStatsUpgradeCommands(void) {
+void idPlayer::HandleStatsUpgradeCommands(void) {
+	RouteGuiMouse(statsUpgrade);
 
+	sysEvent_t ev = sys->GenerateMouseButtonEvent(1, (oldButtons & BUTTON_ATTACK) != 0);
+	statsUpgrade->HandleEvent(&ev, gameLocal.time);
+
+	idStr cmd = statsUpgrade->GetStateString("cmd");
+	if (!cmd.Length()) return;
+	statsUpgrade->SetStateString("cmd", "");
+
+	if (cmd == "upgrade damage") {
+		playerStats.SetFloat("damage", playerStats.GetFloat("damage", "1.0") + 1.0f);
+		statsUpgrade->SetStateFloat("damage", playerStats.GetFloat("damage"));
+	}
+	else if (cmd == "upgrade speed") {
+		playerStats.SetFloat("speed", playerStats.GetFloat("speed", "1.0") + 1.0f);
+		statsUpgrade->SetStateFloat("speed", playerStats.GetFloat("speed"));
+	}
+	else if (cmd == "upgrade awareness") {
+		playerStats.SetFloat("awareness", playerStats.GetFloat("awareness", "1.0") + 1.0f);
+		statsUpgrade->SetStateFloat("awareness", playerStats.GetFloat("awareness"));
+	}
+	else if (cmd == "upgrade ability") {
+		playerStats.SetFloat("ability", playerStats.GetFloat("ability", "1.0") + 1.0f);
+		statsUpgrade->SetStateFloat("ability", playerStats.GetFloat("ability"));
+	}
+	else if (cmd == "upgrade armor") {
+		playerStats.SetFloat("armor", playerStats.GetFloat("armor", "1.0") + 1.0f);
+		statsUpgrade->SetStateFloat("armor", playerStats.GetFloat("armor"));
+	}
+	else if (cmd == "close") {
+		statsUpgradeOpen = false;
+		statsUpgrade->Activate(false, gameLocal.time);
+	}
 }
 /*
 =================
