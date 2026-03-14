@@ -9500,6 +9500,13 @@ void idPlayer::Think( void ) {
 	usercmd = gameLocal.usercmds[ entityNumber ];
 	buttonMask &= usercmd.buttons;
 	usercmd.buttons &= ~buttonMask;
+	
+	//MOD
+	if (statsUpgradeOpen) {
+		usercmd.buttons &= ~BUTTON_ATTACK;
+		HandleStatsUpgradeCommands();
+	}
+	//MOD-END
 
 	HandleObjectiveInput();
 	if ( objectiveSystemOpen ) {
@@ -9790,10 +9797,6 @@ void idPlayer::Think( void ) {
 
 	inBuyZonePrev = false;
 
-	if (statsUpgradeOpen) {
-		usercmd.buttons &= ~BUTTON_ATTACK;
-		HandleStatsUpgradeCommands();
-	}
 }
 
 //MOD
@@ -9805,6 +9808,7 @@ idPlayer::HandleStatsUpgradeCommands
 void idPlayer::HandleStatsUpgradeCommands(void) {
 	RouteGuiMouse(statsUpgrade);
 
+	int rawButton = gameLocal.usercmds[entityNumber].buttons;
 	sysEvent_t ev = sys->GenerateMouseButtonEvent(1, (oldButtons & BUTTON_ATTACK) != 0);
 	statsUpgrade->HandleEvent(&ev, gameLocal.time);
 

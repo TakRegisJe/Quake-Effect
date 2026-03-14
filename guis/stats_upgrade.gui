@@ -9,7 +9,7 @@
       }
       windowDef strength_label {
           rect 100, 100, 200, 25
-          text "gui::stat_damage"   // binds to state variable
+          text "gui::damage"   // binds to state variable
           textscale 0.3
           forecolor 1, 1, 1, 1
       }
@@ -19,7 +19,7 @@
           textscale 0.3
           forecolor 0, 1, 0, 1
           onAction {
-              set "cmd" "upgrade damage"   // sent to HandleGuiCommands
+              set "cmd" "upgrade damage";   // sent to HandleGuiCommands
           }
       }
       windowDef close_btn {
@@ -28,7 +28,7 @@
           textscale 0.3
           forecolor 1, 0, 0, 1
           onAction {
-              set "cmd" "close"
+              set "cmd" "close";
           }
       }
   }
