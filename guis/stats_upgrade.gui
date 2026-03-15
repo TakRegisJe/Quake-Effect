@@ -1,35 +1,188 @@
-  windowDef Desktop {
-      rect 0, 0, 640, 480
-      backcolor 0, 0, 0, 0.7
-      windowDef title {
-          rect 220, 20, 200, 30
-          text "UPGRADE STATS"
-          textscale 0.4
-          forecolor 1, 1, 0, 1
-      }
-      windowDef strength_label {
-          rect 100, 100, 200, 25
-          text "gui::damage"   // binds to state variable
-          textscale 0.3
-          forecolor 1, 1, 1, 1
-      }
-      windowDef strength_btn {
-          rect 320, 100, 80, 25
-          text "UPGRADE"
-          textscale 0.3
-          forecolor 0, 1, 0, 1
-          onAction {
-              set "cmd" "upgrade damage";   // sent to HandleGuiCommands
-          }
-      }
-      windowDef close_btn {
-          rect 280, 420, 80, 25
-          text "CLOSE"
-          textscale 0.3
-          forecolor 1, 0, 0, 1
-          onAction {
-              set "cmd" "close";
-          }
-      }
-  }
+windowDef Desktop
+{
+	rect	0, 0, 640, 480
+	backcolor	0, 0, 0, 0.7
+	windowDef title
+	{
+		rect	220, 20, 200, 30
+		text	"UPGRADE STATS"
+		textscale	0.4
+		forecolor	1,0.498,0,1
+		visible	1
+		font	"fonts/marine"
+	}
+	windowDef damage_txt
+	{
+		rect	100,100,120,25
+		text	"DAMAGE"
+		textscale	0.3
+		forecolor	1,0.501,0,1
+		font	"fonts/marine"
+		visible	1
+	}
+	windowDef damage_label
+	{
+		rect	224,100,183,25
+		text	"gui::damage"
+		textscale	0.3
+		forecolor	1,0.501,0,1
+		font	"fonts/marine"
+		visible	1
+	}
+	windowDef damage_btn
+	{
+		rect	412,100,94,25
+		text	"UPGRADE"
+		textscale	0.3
+		forecolor	1,0.501,0,1
+		font	"fonts/marine"
+		visible	1
 
+		onAction {
+			set "cmd" "upgrade damage";   // sent to HandleGuiCommands
+		}
+
+	}
+	windowDef speed_txt
+	{
+		rect	100,153,120,25
+		text	"SPEED"
+		textscale	0.3
+		forecolor	1,0.501,0,1
+		font	"fonts/marine"
+		visible	1
+	}
+	windowDef speed_label
+	{
+		rect	224,153,183,25
+		text	"gui::speed"
+		textscale	0.3
+		forecolor	1,0.501,0,1
+		visible	1
+		font	"fonts/marine"
+	}
+	windowDef speed_btn
+	{
+		rect	412,153,94,25
+		text	"UPGRADE"
+		textscale	0.3
+		forecolor	1,0.501,0,1
+		visible	1
+		font	"fonts/marine"
+
+		onAction {
+			set "cmd" "upgrade speed";   // sent to HandleGuiCommands
+		}
+
+	}
+	windowDef awareness_txt
+	{
+		rect	100,202,120,25
+		text	"AWARENESS"
+		textscale	0.3
+		forecolor	1,0.498,0,1
+		font	"fonts/marine"
+		visible	1
+	}
+	windowDef awareness_label
+	{
+		rect	224,202,183,25
+		text	"gui::awareness"
+		textscale	0.3
+		forecolor	1,0.501,0,1
+		visible	1
+		font	"fonts/marine"
+	}
+	windowDef awareness_btn
+	{
+		rect	412,202,94,25
+		text	"UPGRADE"
+		textscale	0.3
+		forecolor	1,0.501,0,1
+		visible	1
+		font	"fonts/marine"
+
+		onAction {
+			set "cmd" "upgrade awareness";   // sent to HandleGuiCommands
+		}
+
+	}
+	windowDef ability_txt
+	{
+		rect	100,254,120,25
+		text	"ABILITY"
+		textscale	0.3
+		forecolor	1,0.501,0,1
+		font	"fonts/marine"
+		visible	1
+	}
+	windowDef ability_label
+	{
+		rect	219,254,183,25
+		text	"gui::ability"
+		textscale	0.3
+		forecolor	1,0.501,0,1
+		visible	1
+		font	"fonts/marine"
+	}
+	windowDef ability_btn
+	{
+		rect	412,254,94,25
+		text	"UPGRADE"
+		textscale	0.3
+		forecolor	1,0.501,0,1
+		visible	1
+		font	"fonts/marine"
+
+		onAction {
+			set "cmd" "upgrade ability";   // sent to HandleGuiCommands
+		}
+
+	}
+	windowDef armor_txt
+	{
+		rect	100,303,120,25
+		text	"ARMOR"
+		textscale	0.3
+		forecolor	1,0.501,0,1
+		font	"fonts/marine"
+		visible	1
+	}
+	windowDef armor_label
+	{
+		rect	224,303,183,25
+		text	"gui::armor"
+		textscale	0.3
+		forecolor	1,0.501,0,1
+		visible	1
+		font	"fonts/marine"
+	}
+	windowDef armor_btn
+	{
+		rect	412,303,94,25
+		text	"UPGRADE"
+		textscale	0.3
+		forecolor	1,0.501,0,1
+		visible	1
+		font	"fonts/marine"
+
+		onAction {
+			set "cmd" "upgrade armor";   // sent to HandleGuiCommands
+		}
+
+	}
+	windowDef close_btn
+	{
+		rect	280, 420, 80, 25
+		text	"CLOSE"
+		textscale	0.3
+		forecolor	1,0.501,0,1
+		font	"fonts/marine"
+		visible	1
+
+		onAction {
+			set "cmd" "close";
+		}
+
+	}
+}

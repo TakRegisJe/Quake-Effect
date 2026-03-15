@@ -1101,6 +1101,9 @@ idPlayer::idPlayer() {
 	companion_incTimeStamp = 0;
 	companion_dominateTimeStamp = 0;
 	companion_healTimeStamp = 0;
+	statsUpgrade = NULL;
+	statsUpgradeOpen = false;
+	prevStatsButton = 0;
 	//MOD-END
 
 	alreadyDidTeamAnnouncerSound = false;
@@ -1132,10 +1135,6 @@ idPlayer::idPlayer() {
 	mphud					= NULL;
 	objectiveSystem			= NULL;
 	objectiveSystemOpen		= false;
-	//MOD
-	statsUpgrade			= NULL;
-	statsUpgradeOpen		= false;
-	//MOD
 	showNewObjectives		= false;
 #ifdef _XENON
 	g_ObjectiveSystemOpen	= false;
@@ -2156,6 +2155,10 @@ void idPlayer::Save( idSaveGame *savefile ) const {
  	savefile->WriteUserInterface( hud, false );
 //	savefile->WriteUserInterface( mphud, false );			// Don't save MP stuff
  	savefile->WriteUserInterface( objectiveSystem, false );
+	//MOD
+	savefile->WriteUserInterface(statsUpgrade, false);
+	savefile->WriteBool(statsUpgradeOpen);
+	//MOD-END
 	savefile->WriteUserInterface( cinematicHud, false );
 	savefile->WriteBool( objectiveSystemOpen );
 	savefile->WriteBool( disableHud );
@@ -2425,6 +2428,10 @@ void idPlayer::Restore( idRestoreGame *savefile ) {
 	savefile->ReadUserInterface( objectiveSystem, &spawnArgs );
 	savefile->ReadUserInterface( cinematicHud, &spawnArgs );
 	savefile->ReadBool( objectiveSystemOpen );
+	//MOD
+	savefile->ReadUserInterface(statsUpgrade, &spawnArgs);
+	savefile->ReadBool(statsUpgradeOpen);
+	//MOD-END
 
 #ifdef _XENON
 	g_ObjectiveSystemOpen = objectiveSystemOpen;
@@ -9808,38 +9815,42 @@ idPlayer::HandleStatsUpgradeCommands
 void idPlayer::HandleStatsUpgradeCommands(void) {
 	RouteGuiMouse(statsUpgrade);
 
-	int rawButton = gameLocal.usercmds[entityNumber].buttons;
-	sysEvent_t ev = sys->GenerateMouseButtonEvent(1, (oldButtons & BUTTON_ATTACK) != 0);
-	statsUpgrade->HandleEvent(&ev, gameLocal.time);
+	int curRawButtons = gameLocal.usercmds[entityNumber].buttons;
 
-	idStr cmd = statsUpgrade->GetStateString("cmd");
-	if (!cmd.Length()) return;
-	statsUpgrade->SetStateString("cmd", "");
+	if ((curRawButtons & BUTTON_ATTACK) != (prevStatsButton & BUTTON_ATTACK)) {
+		sysEvent_t ev = sys->GenerateMouseButtonEvent(1, (curRawButtons & BUTTON_ATTACK) != 0);
+		const char* command = statsUpgrade->HandleEvent(&ev, gameLocal.time);
 
-	if (cmd == "upgrade damage") {
-		playerStats.SetFloat("damage", playerStats.GetFloat("damage", "1.0") + 1.0f);
-		statsUpgrade->SetStateFloat("damage", playerStats.GetFloat("damage"));
+		gameLocal.Printf("The gui command is: %s\n", command ? command : "NULL");
+
+		if (command && command[0]) {
+			if (!idStr::Icmp(command,"upgrade damage")) {
+				playerStats.SetFloat("damage", playerStats.GetFloat("damage", "1.0") + 1.0f);
+				statsUpgrade->SetStateFloat("damage", playerStats.GetFloat("damage"));
+			}
+			else if (!idStr::Icmp(command, "upgrade speed")) {
+				playerStats.SetFloat("speed", playerStats.GetFloat("speed", "1.0") + 1.0f);
+				statsUpgrade->SetStateFloat("speed", playerStats.GetFloat("speed"));
+			}
+			else if (!idStr::Icmp(command, "upgrade awareness")) {
+				playerStats.SetFloat("awareness", playerStats.GetFloat("awareness", "1.0") + 0.5f);
+				statsUpgrade->SetStateFloat("awareness", playerStats.GetFloat("awareness"));
+			}
+			else if (!idStr::Icmp(command, "upgrade ability")) {
+				playerStats.SetFloat("ability", playerStats.GetFloat("ability", "1.0") - 0.5f);
+				statsUpgrade->SetStateFloat("ability", playerStats.GetFloat("ability"));
+			}
+			else if (!idStr::Icmp(command, "upgrade armor")) {
+				playerStats.SetFloat("armor", playerStats.GetFloat("armor", "1.0") - 0.1f);
+				statsUpgrade->SetStateFloat("armor", playerStats.GetFloat("armor"));
+			}
+			else if (!idStr::Icmp(command, "close")) {
+				statsUpgradeOpen = false;
+				statsUpgrade->Activate(false, gameLocal.time);
+			}
+		}
 	}
-	else if (cmd == "upgrade speed") {
-		playerStats.SetFloat("speed", playerStats.GetFloat("speed", "1.0") + 1.0f);
-		statsUpgrade->SetStateFloat("speed", playerStats.GetFloat("speed"));
-	}
-	else if (cmd == "upgrade awareness") {
-		playerStats.SetFloat("awareness", playerStats.GetFloat("awareness", "1.0") + 1.0f);
-		statsUpgrade->SetStateFloat("awareness", playerStats.GetFloat("awareness"));
-	}
-	else if (cmd == "upgrade ability") {
-		playerStats.SetFloat("ability", playerStats.GetFloat("ability", "1.0") + 1.0f);
-		statsUpgrade->SetStateFloat("ability", playerStats.GetFloat("ability"));
-	}
-	else if (cmd == "upgrade armor") {
-		playerStats.SetFloat("armor", playerStats.GetFloat("armor", "1.0") + 1.0f);
-		statsUpgrade->SetStateFloat("armor", playerStats.GetFloat("armor"));
-	}
-	else if (cmd == "close") {
-		statsUpgradeOpen = false;
-		statsUpgrade->Activate(false, gameLocal.time);
-	}
+	prevStatsButton = curRawButtons;
 }
 /*
 =================

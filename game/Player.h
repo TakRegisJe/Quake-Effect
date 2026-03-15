@@ -349,6 +349,7 @@ public:
 	//MOD
 	idUserInterface *		statsUpgrade;		// Stats upgrade screen
 	bool					statsUpgradeOpen;
+	int						prevStatsButton;
 	//MOD-END
 	
 	idUserInterface *		objectiveSystem;
