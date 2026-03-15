@@ -790,6 +790,10 @@ bool idProjectile::Collide( const trace_t &collision, const idVec3 &velocity, bo
 			physicsObj.SetAngularVelocity( vec3_zero );
 			physicsObj.SetGravity( vec3_zero );
 			Bind( ent );
+			// Re-post the explode event to ensure it fires after binding,
+			// since the original fuse event from Launch() may be lost
+			CancelEvents( &EV_Explode );
+			PostEventSec( &EV_Explode, spawnArgs.GetFloat( "fuse" ) );
 			return true;
 		}
 		//MOD-END
