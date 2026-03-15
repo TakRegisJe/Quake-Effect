@@ -98,7 +98,7 @@ entityDef weapon_railgun
 
 	"ammoType"				"ammo_railgun"
 	"ammoRequired"				"1"
-	"clipSize"				"3"
+	"clipSize"				"1"  //MOD - reduced clip to 1 round (was 3)
 	"lowAmmo"				"1"
 	"continuousFire"			"1"
 	"dryFireReload" 			"1"
@@ -433,7 +433,7 @@ entityDef hitscan_railgun_penetrate
 
 entityDef damage_railgun 
 {
-	"damage"					"125"
+	"damage"					"250"  //MOD - doubled damage (was 125)
 	"push"						"500"
 	"knockback"					"100"
 	"gib"						"1"

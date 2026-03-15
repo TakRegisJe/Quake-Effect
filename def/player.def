@@ -733,7 +733,7 @@ entityDef player_marine
 	"ammo_railgun"						"0"
 	"ammo_machinegun"					"0"
 	"ammo_nailgun"						"0"
-	"ammo_blaster"						"-1"
+	"ammo_blaster"						"30"  //MOD - limited starting ammo (was -1 infinite)
 	"ammo_shotgun"						"0"
 	"ammo_hyperblaster"					"0"
 	"ammo_rocketlauncher"					"0"
@@ -741,7 +741,7 @@ entityDef player_marine
 	"ammo_lightninggun"					"0"
 	"ammo_none"						"-1"
 
-	"max_ammo_blaster"					"-1"
+	"max_ammo_blaster"					"60"  //MOD - set max ammo cap (was -1 infinite)
 	"max_ammo_railgun"					"50"
 	"max_ammo_machinegun"					"300"
 	"max_ammo_nailgun"					"300"
@@ -1082,7 +1082,7 @@ entityDef player_marine_mp
 	"ammo_railgun"			"0"
 	"ammo_machinegun"		"100"
 	"ammo_nailgun"			"0"
-	"ammo_blaster"			"-1"
+	"ammo_blaster"			"30"  //MOD - limited starting ammo (was -1 infinite)
 	"ammo_shotgun"			"0"
 	"ammo_hyperblaster"		"0"
 	"ammo_rocketlauncher"		"0"

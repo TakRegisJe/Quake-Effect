@@ -81,15 +81,17 @@ entityDef weapon_blaster
 	"chargeTime"				".8"
 	"chargeDelay"				".1"
 	"chargeGlow"				"0 .4"
-	"fireRate"					".15"
+	"fireRate"					".3"  //MOD - reduced fire rate (was .15)
 	"spread"					".2"
 
 //	"def_projectile"			"projectile_blaster"
 	"def_hitscan"				"hitscan_blaster"
 	"def_altprojectile"			"projectile_blaster_charged"
 	"ammoType"					"ammo_blaster"
-	"clipSize"					"0"
-	"ammoRequired"				"0"
+	//MOD - enabled ammo consumption and clip
+	"clipSize"					"12"
+	"ammoRequired"				"1"
+	//MOD-END
 //	"launchFromBarrel"			"1"
 
 	"inv_weapon"				"weapon_blaster"
@@ -97,7 +99,7 @@ entityDef weapon_blaster
 	"inv_icon"					"gfx/guis/hud/icons/item_blaster.tga"
 	"inv_name"					"#str_107400"
 
-//	"gui"						"guis/weapons/blaster_ammo.gui"
+	"gui"						"guis/weapons/blaster_ammo.gui"  //MOD - enabled blaster ammo GUI
 	"mtr_icon"					"gfx/guis/hud/icons/gun_blaster"
 
 	"mtr_crosshair"				"gfx/guis/crosshairs/crosshair_blaster"
@@ -313,7 +315,7 @@ entityDef projectile_blaster_charged
 entityDef damage_blaster
 {
 	"inherit"					"damage_bullet"
-	"damage"					"8"
+	"damage"					"20"  //MOD - increased damage (was 8)
 
 	"fx_wound"					"effects/wounds/energy.fx"
 

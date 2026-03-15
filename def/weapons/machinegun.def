@@ -87,7 +87,6 @@ entityDef weapon_machinegun
 	"joint_world_flash"			"muzzle_flash"
 
 	"inv_weapon"				"weapon_machinegun"
-	"inv_start_ammo_machinegun"		"40"
 	"inv_item"					"1"
 	"inv_icon"					"gfx/guis/hud/icons/item_machinegun.tga"
 	"inv_name"					"#str_107406"
@@ -98,12 +97,15 @@ entityDef weapon_machinegun
 	"mtr_crosshair"				"gfx/guis/crosshairs/crosshair_machinegun"
 	"def_hitscan"				"hitscan_bullet"
 	"def_althitscan"			"hitscan_zoomed_bullet"
-	
-	"ammoType"					"ammo_machinegun"
-	"ammoRequired"				"1"
-	"clipSize"					"40"
-	"lowAmmo"					"10"
-	"gui"						"guis/weapons/machinegun_ammo.gui"
+
+	//MOD - removed ammo system; replaced with overheat cooldown
+	"ammoType"					"ammo_none"
+	"ammoRequired"				"0"
+	"clipSize"					"0"
+	"maxHeat"					"100"
+	"heatPerShot"				"10"
+	"cooldownRate"				"25"
+	//MOD-END
 	"gui2"						"guis/weapons/machinegun_inview_scope.gui"
 
 	"mtr_icon"					"gfx/guis/hud/icons/gun_machinegun"
@@ -115,9 +117,6 @@ entityDef weapon_machinegun
 
 	"ejectOffset"				"0.5 -1 -1"
 	
-	"ammoRegenStep"				"4"
-	"ammoRegenTime"				"1000"
-
 	"recoilTime"				"145"
 	"recoilAngles"				"-1 0 0"
 	
