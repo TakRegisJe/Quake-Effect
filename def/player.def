@@ -606,6 +606,7 @@ entityDef player_marine
 	"cursor"						"guis/cursor.gui"
 	"cinematicHud"						"guis/cinematic.gui"
 	"wristcomm"						"guis/wristcomm.gui"
+	"stats_upgrade"					"guis/stats_upgrade.gui"
 
 	"blink_min"						"0.5"
 	"blink_max"						"4.8"
