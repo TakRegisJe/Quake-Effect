@@ -389,9 +389,6 @@ void idProjectile::Launch( const idVec3 &start, const idVec3 &dir, const idVec3 
 	projectileFlags.detonate_on_actor	= spawnArgs.GetBool( "detonate_on_actor" );
 	projectileFlags.randomShaderSpin	= spawnArgs.GetBool( "random_shader_spin" );
 	projectileFlags.detonate_on_bounce  = spawnArgs.GetBool( "detonate_on_bounce" );
-	//MOD - read sticky flag for actor-attaching behavior
-	sticky = spawnArgs.GetBool( "sticky" );
-	//MOD-END
 
 	lightStartTime = 0;
 	lightEndTime = 0;
@@ -784,19 +781,6 @@ bool idProjectile::Collide( const trace_t &collision, const idVec3 &velocity, bo
 		// Pass through water
 		return false;
 	} else if ( canDamage && ent->IsType( idActor::GetClassType() ) ) {
-		//MOD - if sticky, attach to the actor and let the fuse handle detonation
-		if ( sticky ) {
-			physicsObj.SetLinearVelocity( vec3_zero );
-			physicsObj.SetAngularVelocity( vec3_zero );
-			physicsObj.SetGravity( vec3_zero );
-			Bind( ent );
-			// Re-post the explode event to ensure it fires after binding,
-			// since the original fuse event from Launch() may be lost
-			CancelEvents( &EV_Explode );
-			PostEventSec( &EV_Explode, spawnArgs.GetFloat( "fuse" ) );
-			return true;
-		}
-		//MOD-END
 		if ( !projectileFlags.detonate_on_actor ) {
 			return false;
 		}
